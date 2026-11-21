@@ -1,0 +1,72 @@
+<UserControl x:Class="Hmi.Wpf.Views.AlarmCenterView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="124"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,6" VerticalAlignment="Center">
+            <TextBlock Text="实时告警" FontSize="14" FontWeight="SemiBold"
+                       Foreground="{StaticResource TextPrimary}" VerticalAlignment="Center"/>
+            <Button Content="确认" Margin="16,0,0,0" MinWidth="52"
+                    Command="{Binding AcknowledgeCommand}"/>
+            <Button Content="清除（归档）" Margin="6,0,0,0" MinWidth="90"
+                    Command="{Binding ClearCommand}"/>
+        </StackPanel>
+
+        <DataGrid Grid.Row="1" ItemsSource="{Binding ActiveAlarms}"
+                  SelectedItem="{Binding SelectedActive, Mode=TwoWay}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="级别" Binding="{Binding LevelText}" Width="70"/>
+                <DataGridTextColumn Header="来源" Binding="{Binding Source}" Width="180"/>
+                <DataGridTextColumn Header="点位" Binding="{Binding PointCode}" Width="90"/>
+                <DataGridTextColumn Header="消息" Binding="{Binding Message}" Width="*"/>
+                <DataGridTextColumn Header="状态" Binding="{Binding StateText}" Width="80"/>
+                <DataGridTextColumn Header="时间" Binding="{Binding TimeText}" Width="90"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,16,0,6" VerticalAlignment="Center">
+            <TextBlock Text="历史告警" FontSize="14" FontWeight="SemiBold"
+                       Foreground="{StaticResource TextPrimary}" VerticalAlignment="Center"/>
+            <TextBlock Text="级别:" Margin="20,0,4,0" VerticalAlignment="Center"
+                       Foreground="{StaticResource TextPrimary}"/>
+            <ComboBox Width="76" ItemsSource="{Binding LevelOptions}" SelectedItem="{Binding SelectedLevel}"/>
+            <TextBlock Text="状态:" Margin="12,0,4,0" VerticalAlignment="Center"
+                       Foreground="{StaticResource TextPrimary}"/>
+            <ComboBox Width="76" ItemsSource="{Binding StateOptions}" SelectedItem="{Binding SelectedState}"/>
+            <TextBlock Text="从:" Margin="12,0,4,0" VerticalAlignment="Center"
+                       Foreground="{StaticResource TextPrimary}"/>
+            <DatePicker Width="112" SelectedDate="{Binding FromDate}"/>
+            <TextBlock Text="到:" Margin="12,0,4,0" VerticalAlignment="Center"
+                       Foreground="{StaticResource TextPrimary}"/>
+            <DatePicker Width="112" SelectedDate="{Binding ToDate}"/>
+            <Button Content="查询" Margin="12,0,0,0" MinWidth="52" Command="{Binding QueryCommand}"/>
+        </StackPanel>
+
+        <DataGrid Grid.Row="3" ItemsSource="{Binding HistoryAlarms}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="级别" Binding="{Binding LevelText}" Width="70"/>
+                <DataGridTextColumn Header="来源" Binding="{Binding Source}" Width="180"/>
+                <DataGridTextColumn Header="点位" Binding="{Binding PointCode}" Width="90"/>
+                <DataGridTextColumn Header="消息" Binding="{Binding Message}" Width="*"/>
+                <DataGridTextColumn Header="状态" Binding="{Binding StateText}" Width="80"/>
+                <DataGridTextColumn Header="时间" Binding="{Binding FullTimeText}" Width="150"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,8,0,0">
+            <Button Content="上一页" MinWidth="52" Command="{Binding PrevPageCommand}"/>
+            <TextBlock Text="{Binding PageText}" Margin="12,0" VerticalAlignment="Center"
+                       Foreground="{StaticResource TextPrimary}"/>
+            <TextBlock Text="{Binding TotalText}" Margin="12,0" VerticalAlignment="Center"
+                       Foreground="{StaticResource TextPrimary}"/>
+            <Button Content="下一页" MinWidth="52" Command="{Binding NextPageCommand}"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

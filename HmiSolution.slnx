@@ -1,0 +1,27 @@
+<Solution>
+  <!--
+    分层结构与磁盘一致（见 AGENTS.md §4）：
+    Solution Items = 解决方案级文件；src = 源码；tests = 测试。
+    新增项目必须加入对应分组，分组名固定，不再新增一级分组。
+  -->
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path="nuget.config" />
+    <File Path="README.md" />
+    <File Path="AGENTS.md" />
+  </Folder>
+
+  <Folder Name="/src/">
+    <Project Path="src/Hmi.Domain/Hmi.Domain.csproj" />
+    <Project Path="src/Hmi.Application/Hmi.Application.csproj" />
+    <Project Path="src/Hmi.Infrastructure/Hmi.Infrastructure.csproj" />
+    <Project Path="src/Hmi.ViewModels/Hmi.ViewModels.csproj" />
+    <Project Path="src/Hmi.Wpf/Hmi.Wpf.csproj" />
+  </Folder>
+
+  <Folder Name="/tests/">
+    <Project Path="tests/Hmi.Domain.Tests/Hmi.Domain.Tests.csproj" />
+  </Folder>
+</Solution>

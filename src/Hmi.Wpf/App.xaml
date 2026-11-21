@@ -1,0 +1,27 @@
+﻿<Application x:Class="Hmi.Wpf.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:Hmi.ViewModels;assembly=Hmi.ViewModels"
+             xmlns:views="clr-namespace:Hmi.Wpf.Views"
+             ShutdownMode="OnMainWindowClose">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles/Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <DataTemplate DataType="{x:Type vm:DeviceMonitorViewModel}">
+                <views:DeviceMonitorView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type vm:AlarmCenterViewModel}">
+                <views:AlarmCenterView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type vm:WorkOrderViewModel}">
+                <views:WorkOrderView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type vm:RecipeViewModel}">
+                <views:RecipeView/>
+            </DataTemplate>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

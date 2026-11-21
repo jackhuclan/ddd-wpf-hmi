@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+
+jobs:
+  build-test:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Build (0 warning 0 error baseline)
+        run: dotnet build HmiSolution.slnx -c Release --nologo
+
+      - name: Test
+        # 失败时把失败用例名与首个断言消息打成注解（Annotations），
+        # 避免只能整包下载日志才能定位
+        shell: pwsh
+        run: |
+          dotnet test HmiSolution.slnx -c Release --no-build --nologo 2>&1 | Tee-Object -FilePath test-output.log
+          if ($LASTEXITCODE -ne 0) {
+            Select-String -Path test-output.log -Pattern '\[FAIL\]' | ForEach-Object {
+              Write-Output "::error::$($_.Line.Trim())"
+            }
+            Select-String -Path test-output.log -Pattern '^\s+(Assert|Expected|Actual|错误消息)' | Select-Object -First 12 | ForEach-Object {
+              Write-Output "::error::$($_.Line.Trim())"
+            }
+            exit 1
+          }
